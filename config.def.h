@@ -27,8 +27,8 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Gimp",     NULL,       NULL,       0,            0,           -1 },
+	//{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 };
 
 /* layout(s) */
@@ -61,9 +61,11 @@ static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "folder-shell", NULL };
 
-static const char *fullscreenshot[] = { "scrot", "/tmp/%F_%T_$wx$h.png", "-e", "xclip -selection clipboard -target image/png -i $f", NULL };
-static const char *activescreenshot[] = { "scrot", "-u", "/tmp/%F_%T_$wx$h.png", "-e", "xclip -selection clipboard -target image/png -i $f", NULL };
-static const char *selectscreenshot[] = { "scrot", "-s", "/tmp/%F_%T_$wx$h.png", "-e", "xclip -selection clipboard -target image/png -i $f", NULL };
+static const char *fullscreenshot[] = { "screenshot",  NULL };
+static const char *activescreenshot[] = { "screenshot", "window", NULL };
+static const char *selectscreenshot[] = { "screenshot", "select", NULL };
+
+static const char *qutebrowser[] = { "qutebrowser", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -93,9 +95,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_Print,  spawn,          {.v = fullscreenshot } },
+	{ 0,                            XK_Print,  spawn,          {.v = fullscreenshot } },
 	{ ControlMask,                  XK_Print,  spawn,          {.v = activescreenshot } },
 	{ ShiftMask,                    XK_Print,  spawn,          {.v = selectscreenshot } },
+	//Applications
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = qutebrowser } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
