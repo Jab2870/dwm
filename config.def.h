@@ -65,7 +65,11 @@ static const char *fullscreenshot[] = { "screenshot",  NULL };
 static const char *activescreenshot[] = { "screenshot", "window", NULL };
 static const char *selectscreenshot[] = { "screenshot", "select", NULL };
 
+static const char *greenclip[] = { "rofi", "-modi", "clipboard:greenclip print", "-show", "clipboard", "-run-command", "{cmd}", NULL };
+
 static const char *qutebrowser[] = { "qutebrowser", NULL };
+
+static const char *date[] = { "datetime", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -98,6 +102,8 @@ static Key keys[] = {
 	{ 0,                            XK_Print,  spawn,          {.v = fullscreenshot } },
 	{ ControlMask,                  XK_Print,  spawn,          {.v = activescreenshot } },
 	{ ShiftMask,                    XK_Print,  spawn,          {.v = selectscreenshot } },
+	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = date } },
+	{ MODKEY|ShiftMask,             XK_Insert, spawn,          {.v = greenclip } },
 	//Applications
 	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = qutebrowser } },
 	TAGKEYS(                        XK_1,                      0)
