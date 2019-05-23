@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+//The media and volume keys
+#include "X11/XF86keysym.h"
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -74,52 +77,55 @@ static const char *qutebrowser[] = { "qutebrowser", NULL };
 
 static const char *date[] = { "datetime", NULL };
 
+static const char *playpause[] = { "playerctl", "play-pause", NULL };
+
 #include "movestack.c"
 static Key keys[] = {
-	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY,                       XK_q,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ 0,                            XK_Print,  spawn,          {.v = fullscreenshot } },
-	{ ControlMask,                  XK_Print,  spawn,          {.v = activescreenshot } },
-	{ ShiftMask,                    XK_Print,  spawn,          {.v = selectscreenshot } },
-	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = date } },
-	{ MODKEY|ShiftMask,             XK_Insert, spawn,          {.v = greenclip } },
+	/* modifier                     key               function        argument */
+	{ MODKEY,                       XK_p,             spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return,        spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_b,             togglebar,      {0} },
+	{ MODKEY,                       XK_j,             focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,             focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_j,             movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,             movestack,      {.i = -1 } },
+	{ MODKEY,                       XK_i,             incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,             incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,             setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,             setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_Return,        zoom,           {0} },
+	{ MODKEY,                       XK_Tab,           view,           {0} },
+	{ MODKEY,                       XK_q,             killclient,     {0} },
+	{ MODKEY,                       XK_t,             setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,             setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,             setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_t,             setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_space,         setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,         togglefloating, {0} },
+	{ MODKEY,                       XK_0,             view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,             tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,         focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,        focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,         tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,        tagmon,         {.i = +1 } },
+	{ 0,                            XK_Print,         spawn,          {.v = fullscreenshot } },
+	{ ControlMask,                  XK_Print,         spawn,          {.v = activescreenshot } },
+	{ ShiftMask,                    XK_Print,         spawn,          {.v = selectscreenshot } },
+	{ 0,                            XF86XK_AudioPlay, spawn,          {.v = playpause } },
+	{ MODKEY|ShiftMask,             XK_d,             spawn,          {.v = date } },
+	{ MODKEY|ShiftMask,             XK_Insert,        spawn,          {.v = greenclip } },
 	//Applications
-	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = qutebrowser } },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_r,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_q,             spawn,          {.v = qutebrowser } },
+	TAGKEYS(                        XK_1,                             0)
+	TAGKEYS(                        XK_2,                             1)
+	TAGKEYS(                        XK_3,                             2)
+	TAGKEYS(                        XK_4,                             3)
+	TAGKEYS(                        XK_5,                             4)
+	TAGKEYS(                        XK_6,                             5)
+	TAGKEYS(                        XK_7,                             6)
+	TAGKEYS(                        XK_8,                             7)
+	TAGKEYS(                        XK_9,                             8)
+	{ MODKEY|ShiftMask,             XK_r,             quit,           {0} },
 };
 
 /* button definitions */
