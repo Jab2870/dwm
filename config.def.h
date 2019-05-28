@@ -79,6 +79,8 @@ static const char *date[] = { "datetime", NULL };
 
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
+static const char *logout[] = { "rofi-shutdown", NULL };
+
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key               function        argument */
@@ -93,6 +95,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,             incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,             setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,             setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_l,             spawn,          {.v = logout} },
 	{ MODKEY|ShiftMask,             XK_Return,        zoom,           {0} },
 	{ MODKEY,                       XK_Tab,           view,           {0} },
 	{ MODKEY,                       XK_q,             killclient,     {0} },
