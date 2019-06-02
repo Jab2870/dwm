@@ -41,7 +41,6 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const int attachbelow = 0;    /* 1 means attach after the currently active window */
 
 #include "tcl.c"
-
 #include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -100,7 +99,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,             setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_l,             spawn,          {.v = logout} },
 	{ MODKEY|ShiftMask,             XK_Return,        zoom,           {0} },
-	{ MODKEY,                       XK_Tab,           view,           {0} },
+	{ MODKEY,                       XK_Tab,           toggleattachbelow,           {0} },
 	{ MODKEY,                       XK_q,             killclient,     {0} },
 	{ MODKEY,                       XK_t,             setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,             setlayout,      {.v = &layouts[2]} },
