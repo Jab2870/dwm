@@ -148,6 +148,7 @@ static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
 static void attachBelow(Client *c);
+static void toggleAttachBelow();
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
@@ -420,6 +421,11 @@ attachBelow(Client *c)
 	//Set the currently selected clients next property to the new client
 	c->mon->sel->next = c;
 
+}
+
+void toggleAttachBelow()
+{
+	attachbelow = !attachbelow;
 }
 
 void
