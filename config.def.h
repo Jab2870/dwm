@@ -99,7 +99,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,             setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_l,             spawn,          {.v = logout} },
 	{ MODKEY|ShiftMask,             XK_Return,        zoom,           {0} },
-	{ MODKEY,                       XK_Tab,           toggleattachbelow,           {0} },
+	{ MODKEY,                       XK_Tab,           toggleAttachBelow,           {0} },
 	{ MODKEY,                       XK_q,             killclient,     {0} },
 	{ MODKEY,                       XK_t,             setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,             setlayout,      {.v = &layouts[2]} },
