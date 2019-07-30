@@ -93,6 +93,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Print,  spawn,          {.v = fullscreenshot } },
 	{ ControlMask,                  XK_Print,  spawn,          {.v = activescreenshot } },
 	{ ShiftMask,                    XK_Print,  spawn,          {.v = selectscreenshot } },
+//Applications
+	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = { "qutebrowser", NULL } } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = { "chromium-snapshot-bin", NULL } } },
+	{ MODKEY|ShiftMask,             XK_c,      spawn,          {.v = { "chromium-snapshot-bin", "--force-device-scale-factor=2", NULL } } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
