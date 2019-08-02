@@ -83,6 +83,9 @@ static const char *bigchromium[] = { "chromium-snapshot-bin", "--force-device-sc
 
 static const char *date[] = { "datetime", NULL };
 
+static const char *unicode[] = { "unicode-character-select", NULL };
+static const char *youtube[] = { "open-youtube", NULL };
+
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
 static const char *logout[] = { "rofi-shutdown", NULL };
@@ -128,6 +131,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,             spawn,          {.v = qutebrowser } },
 	{ MODKEY,                       XK_c,             spawn,          {.v = chromium } },
 	{ MODKEY|ShiftMask,             XK_c,             spawn,          {.v = bigchromium } },
+	//Dmenu / Rofi
+	{ MODKEY,                       XK_u,             spawn,          {.v = unicode } },
+	{ MODKEY,                       XK_y,             spawn,          {.v = youtube } },
 	TAGKEYS(                        XK_1,                             0)
 	TAGKEYS(                        XK_2,                             1)
 	TAGKEYS(                        XK_3,                             2)
