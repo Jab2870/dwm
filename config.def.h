@@ -78,10 +78,12 @@ static const char *selectscreenshot[] = { "screenshot", "select", NULL };
 static const char *greenclip[] = { "rofi", "-modi", "clipboard:greenclip print", "-show", "clipboard", "-run-command", "{cmd}", NULL };
 
 static const char *qutebrowser[] = { "qutebrowser", NULL };
+static const char *surf[] = { "tabbed", "-c", "surf", "-e", NULL };
 static const char *chromium[] = { "chromium-snapshot-bin", NULL };
 static const char *bigchromium[] = { "chromium-snapshot-bin", "--force-device-scale-factor=2", NULL };
 
 static const char *date[] = { "datetime", NULL };
+static const char *battery[] = { "battery", NULL };
 
 static const char *unicode[] = { "unicode-character-select", NULL };
 static const char *youtube[] = { "open-youtube", NULL };
@@ -126,9 +128,11 @@ static Key keys[] = {
 	{ ShiftMask,                    XK_Print,         spawn,          {.v = selectscreenshot } },
 	{ 0,                            XF86XK_AudioPlay, spawn,          {.v = playpause } },
 	{ MODKEY|ShiftMask,             XK_d,             spawn,          {.v = date } },
+	{ MODKEY|ShiftMask,             XK_b,             spawn,          {.v = battery} },
 	{ MODKEY|ShiftMask,             XK_Insert,        spawn,          {.v = greenclip } },
 	//Applications
 	{ MODKEY|ShiftMask,             XK_q,             spawn,          {.v = qutebrowser } },
+	{ MODKEY          ,             XK_s,             spawn,          {.v = surf } },
 	{ MODKEY,                       XK_c,             spawn,          {.v = chromium } },
 	{ MODKEY|ShiftMask,             XK_c,             spawn,          {.v = bigchromium } },
 	//Dmenu / Rofi
