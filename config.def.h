@@ -79,8 +79,8 @@ static const char *greenclip[] = { "rofi", "-modi", "clipboard:greenclip print",
 
 static const char *qutebrowser[] = { "qutebrowser", NULL };
 static const char *surf[] = { "tabbed", "-c", "surf", "-e", NULL };
-static const char *chromium[] = { "chromium-snapshot-bin", NULL };
-static const char *bigchromium[] = { "chromium-snapshot-bin", "--force-device-scale-factor=2", NULL };
+static const char *chromium[] = { "chromium", NULL };
+static const char *bigchromium[] = { "chromium", "--force-device-scale-factor=2", NULL };
 
 static const char *date[] = { "datetime", NULL };
 static const char *battery[] = { "battery", NULL };
@@ -91,6 +91,17 @@ static const char *youtube[] = { "open-youtube", NULL };
 static const char *playpause[] = { "playerctl", "play-pause", NULL };
 
 static const char *logout[] = { "rofi-shutdown", NULL };
+
+static const char *offlineArchWiki[] = { "offline-aw", NULL };
+static const char *manPages[] = { "man-page-pdf", NULL };
+static const char *ports[] = { "ports", NULL };
+
+static const char *project[] = { "project", "switch", "--rofi", NULL };
+static const char *whichproject[] = { "project", "current", "--notify", NULL };
+
+static const char *screenlayout[] = { "screenlayout", NULL };
+
+static const char *pass[] = { "password-manager", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -138,6 +149,13 @@ static Key keys[] = {
 	//Dmenu / Rofi
 	{ MODKEY,                       XK_u,             spawn,          {.v = unicode } },
 	{ MODKEY,                       XK_y,             spawn,          {.v = youtube } },
+	{ MODKEY,                       XK_a,             spawn,          {.v = offlineArchWiki } },
+	{ MODKEY|ShiftMask,             XK_a,             spawn,          {.v = screenlayout } },
+	{ MODKEY|ShiftMask,             XK_m,             spawn,          {.v = manPages } },
+	{ MODKEY|ShiftMask,             XK_p,             spawn,          {.v = ports } },
+	{ MODKEY,                       XK_w,             spawn,          {.v = whichproject } },
+	{ MODKEY|ShiftMask,             XK_w,             spawn,          {.v = project } },
+	{ MODKEY,                       XK_e,             spawn,          {.v = pass } },
 	TAGKEYS(                        XK_1,                             0)
 	TAGKEYS(                        XK_2,                             1)
 	TAGKEYS(                        XK_3,                             2)
