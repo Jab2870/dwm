@@ -4,8 +4,8 @@
 #include "X11/XF86keysym.h"
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 6;        /* gaps between windows */
+static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int gappx     = 3;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -82,6 +82,7 @@ static const char *qutebrowser[] = { "qutebrowser", NULL };
 static const char *surf[] = { "tabbed", "-c", "surf", "-e", NULL };
 static const char *chromium[] = { "chromium", NULL };
 static const char *bigchromium[] = { "chromium", "--force-device-scale-factor=2", NULL };
+static const char *firefox[] = { "firefox-developer-edition", NULL };
 
 static const char *date[] = { "datetime", NULL };
 static const char *battery[] = { "battery", NULL };
@@ -145,8 +146,8 @@ static Key keys[] = {
 	//Applications
 	{ MODKEY|ShiftMask,             XK_q,             spawn,          {.v = qutebrowser } },
 	{ MODKEY          ,             XK_s,             spawn,          {.v = surf } },
-	{ MODKEY,                       XK_c,             spawn,          {.v = chromium } },
-	{ MODKEY|ShiftMask,             XK_c,             spawn,          {.v = bigchromium } },
+	{ MODKEY,                       XK_c,             spawn,          {.v = firefox } },
+	{ MODKEY|ShiftMask,             XK_c,             spawn,          {.v = chromium } },
 	//Dmenu / Rofi
 	{ MODKEY,                       XK_u,             spawn,          {.v = unicode } },
 	{ MODKEY,                       XK_y,             spawn,          {.v = youtube } },
