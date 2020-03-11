@@ -94,7 +94,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow;
+	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen, isterminal, noswallow, nofakefullscreen;
 	pid_t pid;
 	Client *next;
 	Client *snext;
@@ -144,6 +144,7 @@ typedef struct {
 	int isfloating;
 	int isterminal;
 	int noswallow;
+	int nofakefullscreen;
 	int monitor;
 } Rule;
 
@@ -316,6 +317,7 @@ applyrules(Client *c)
 		{
 			c->isterminal = r->isterminal;
 			c->isfloating = r->isfloating;
+			c->nofakefullscreen = r->nofakefullscreen;
 			c->tags |= r->tags;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
 			if (m)

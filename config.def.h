@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 //The media and volume keys
+//usr/include/X11/XF86keysym.h
 #include "X11/XF86keysym.h"
 
 /* appearance */
@@ -30,11 +31,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                  instance    title       tags mask     isfloating   isterminal noswallow    monitor */
-	//{ "Gimp",               NULL,       NULL,       0,            0,           0,         0,           -1 },
-	//{ "Firefox",            NULL,       NULL,       1 << 8,       0,           0,         0,           -1 },
-	{ "xterm-256color",       NULL,       NULL,       0,            0,           1,         1,           -1 },
-	{ "Thunderbird",          NULL,       NULL,       1 << 8 ,      0,           0,         0,           -1 },
+	/* class                  instance    title                 tags mask     isfloating   isterminal noswallow  nofakefullscreen   monitor */
+	//{ "Gimp",               NULL,       NULL,                 0,            0,           0,         0,         0,                 -1 },
+	//{ "Firefox",            NULL,       NULL,                 1 << 8,       0,           0,         0,         0,                 -1 },
+	{ "xterm-256color",       NULL,       NULL,                 0,            0,           1,         1,         0,                 -1 },
+	{ "Thunderbird",          NULL,       NULL,                 1 << 8 ,      0,           0,         0,         0,                 -1 },
+	{ NULL,                   NULL,       "Event Tester",       0,            0,           0,         1,         0,                 -1 }
+
 };
 
 /* layout(s) */
@@ -72,6 +75,8 @@ static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
 //static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "folder-shell", NULL };
 
+static const char *lfcmd[]  = { "folder-shell", "lf", NULL };
+
 static const char *fullscreenshot[] = { "screenshot",  NULL };
 static const char *activescreenshot[] = { "screenshot", "window", NULL };
 static const char *selectscreenshot[] = { "screenshot", "select", NULL };
@@ -105,69 +110,87 @@ static const char *screenlayout[] = { "screenlayout", NULL };
 
 static const char *pass[] = { "password-manager", NULL };
 
+static const char *volumeUp[] = { "volume", "up", NULL };
+static const char *volumeDown[] = { "volume", "down", NULL };
+static const char *volumeToggle[] = { "volume", "toggle", NULL };
+
+static const char *setBackgroundRandom[] = { "rofi-background", "--earth", NULL };
+static const char *backgroundDetails[] = { "background", "--only-notify", NULL };
+
+static const char *unity_hud[] = { "hud-menu.py" };
+
 #include "movestack.c"
 static Key keys[] = {
-	/* modifier                     key               function        argument */
-	{ MODKEY,                       XK_p,             spawn,          {.v = dmenucmd } },
-	{ MODKEY,                       XK_Return,        spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_b,             togglebar,      {0} },
-	{ MODKEY,                       XK_j,             focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,             focusstack,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,             movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,             movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_i,             incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,             incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,             setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,             setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_l,             spawn,          {.v = logout} },
-	{ MODKEY|ShiftMask,             XK_Return,        zoom,           {0} },
-	{ MODKEY,                       XK_Tab,           toggleAttachBelow,           {0} },
-	{ MODKEY,                       XK_q,             killclient,     {0} },
-	{ MODKEY,                       XK_t,             setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,             setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_t,             setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_f,             setlayout,      {.v = &layouts[4]} },
-	{ MODKEY|ShiftMask,             XK_f,             setlayout,      {.v = &layouts[5]} },
-	{ MODKEY,                       XK_space,         setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,         togglefloating, {0} },
-	{ MODKEY,                       XK_0,             view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,             tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,         focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period,        focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,         tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period,        tagmon,         {.i = +1 } },
-	{ 0,                            XK_Print,         spawn,          {.v = fullscreenshot } },
-	{ ControlMask,                  XK_Print,         spawn,          {.v = activescreenshot } },
-	{ ShiftMask,                    XK_Print,         spawn,          {.v = selectscreenshot } },
-	{ 0,                            XF86XK_AudioPlay, spawn,          {.v = playpause } },
-	{ MODKEY|ShiftMask,             XK_d,             spawn,          {.v = date } },
-	{ MODKEY|ShiftMask,             XK_b,             spawn,          {.v = battery} },
-	{ MODKEY|ShiftMask,             XK_Insert,        spawn,          {.v = greenclip } },
+	/* modifier                     key                        function        argument */
+	{ MODKEY,                       XK_p,                      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return,                 spawn,          {.v = termcmd } },
+	{ MODKEY|ControlMask,           XK_Return,                 spawn,          {.v = lfcmd } },
+	{ MODKEY,                       XK_b,                      togglebar,      {0} },
+	{ MODKEY,                       XK_j,                      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,                      focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_j,                      movestack,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,                      movestack,      {.i = -1 } },
+	{ MODKEY,                       XK_i,                      incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_i,                      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,                      setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,                      setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_l,                      spawn,          {.v = logout} },
+	{ MODKEY|ShiftMask,             XK_Return,                 zoom,           {0} },
+	{ MODKEY,                       XK_Tab,                    toggleAttachBelow,           {0} },
+	{ MODKEY,                       XK_q,                      killclient,     {0} },
+	{ MODKEY,                       XK_t,                      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_m,                      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_t,                      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_f,                      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_f,                      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_space,                  setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,                  togglefloating, {0} },
+	{ MODKEY,                       XK_0,                      view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,                      tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,                  focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,                 focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,                  tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,                 tagmon,         {.i = +1 } },
+	{ 0,                            XK_Print,                  spawn,          {.v = fullscreenshot } },
+	{ ControlMask,                  XK_Print,                  spawn,          {.v = activescreenshot } },
+	{ ShiftMask,                    XK_Print,                  spawn,          {.v = selectscreenshot } },
+	{ 0,                            XF86XK_AudioPlay,          spawn,          {.v = playpause } },
+	{ MODKEY|ShiftMask,             XK_d,                      spawn,          {.v = date } },
+	{ MODKEY|ShiftMask,             XK_b,                      spawn,          {.v = battery} },
+	{ MODKEY|ShiftMask,             XK_Insert,                 spawn,          {.v = greenclip } },
 	//Applications
-	{ MODKEY|ShiftMask,             XK_q,             spawn,          {.v = qutebrowser } },
-	{ MODKEY          ,             XK_s,             spawn,          {.v = surf } },
-	{ MODKEY,                       XK_c,             spawn,          {.v = firefox } },
-	{ MODKEY|ShiftMask,             XK_c,             spawn,          {.v = chromium } },
+	{ MODKEY|ShiftMask,             XK_q,                      spawn,          {.v = qutebrowser } },
+	{ MODKEY          ,             XK_s,                      spawn,          {.v = surf } },
+	{ MODKEY,                       XK_c,                      spawn,          {.v = firefox } },
+	{ MODKEY|ShiftMask,             XK_c,                      spawn,          {.v = chromium } },
 	//Dmenu / Rofi
-	{ MODKEY,                       XK_u,             spawn,          {.v = unicode } },
-	{ MODKEY,                       XK_y,             spawn,          {.v = youtube } },
-	{ MODKEY,                       XK_a,             spawn,          {.v = offlineArchWiki } },
-	{ MODKEY|ShiftMask,             XK_a,             spawn,          {.v = screenlayout } },
-	{ MODKEY|ShiftMask,             XK_m,             spawn,          {.v = manPages } },
-	{ MODKEY|ShiftMask,             XK_p,             spawn,          {.v = ports } },
-	{ MODKEY,                       XK_w,             spawn,          {.v = whichproject } },
-	{ MODKEY|ShiftMask,             XK_w,             spawn,          {.v = project } },
-	{ MODKEY,                       XK_e,             spawn,          {.v = pass } },
-	TAGKEYS(                        XK_1,                             0)
-	TAGKEYS(                        XK_2,                             1)
-	TAGKEYS(                        XK_3,                             2)
-	TAGKEYS(                        XK_4,                             3)
-	TAGKEYS(                        XK_5,                             4)
-	TAGKEYS(                        XK_6,                             5)
-	TAGKEYS(                        XK_7,                             6)
-	TAGKEYS(                        XK_8,                             7)
-	TAGKEYS(                        XK_9,                             8)
-	{ MODKEY|ShiftMask,             XK_r,             quit,           {0} },
+	{ MODKEY,                       XK_u,                      spawn,          {.v = unicode } },
+	{ MODKEY,                       XK_y,                      spawn,          {.v = youtube } },
+	{ MODKEY,                       XK_a,                      spawn,          {.v = offlineArchWiki } },
+	{ MODKEY|ShiftMask,             XK_a,                      spawn,          {.v = screenlayout } },
+	{ MODKEY|ShiftMask,             XK_m,                      spawn,          {.v = manPages } },
+	{ MODKEY|ShiftMask,             XK_p,                      spawn,          {.v = ports } },
+	{ MODKEY,                       XK_w,                      spawn,          {.v = whichproject } },
+	{ MODKEY|ShiftMask,             XK_w,                      spawn,          {.v = project } },
+	{ MODKEY,                       XK_d,                      spawn,          {.v = pass } },
+	{ MODKEY,                       XK_x,                      spawn,          {.v = unity_hud } },
+	//Background
+	{ MODKEY,                       XK_e,                      spawn,          {.v = setBackgroundRandom } },
+	{ MODKEY|ControlMask,           XK_e,                      spawn,          {.v = backgroundDetails } },
+	//Special keys
+	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,          {.v = volumeUp } },
+	{ 0,                            XF86XK_AudioLowerVolume,   spawn,          {.v = volumeDown } },
+	{ 0,                            XF86XK_AudioMute,          spawn,          {.v = volumeToggle } },
+	TAGKEYS(                        XK_1,                                      0)
+	TAGKEYS(                        XK_2,                                      1)
+	TAGKEYS(                        XK_3,                                      2)
+	TAGKEYS(                        XK_4,                                      3)
+	TAGKEYS(                        XK_5,                                      4)
+	TAGKEYS(                        XK_6,                                      5)
+	TAGKEYS(                        XK_7,                                      6)
+	TAGKEYS(                        XK_8,                                      7)
+	TAGKEYS(                        XK_9,                                      8)
+	{ MODKEY|ShiftMask,             XK_r,                      quit,           {0} },
 };
 
 /* button definitions */
